@@ -5,13 +5,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class TileTextGenerator {
 
 	private ArrayList<String> texts;
+	private String fileName;
+	private Logger log = Logger.getLogger(TileTextGenerator.class.getName());
+	
 	
 	public TileTextGenerator() {
-			populateList();
+		fileName = "resources/texts_sv.txt";
+		populateList();
 	}
 	
 	
@@ -25,8 +30,7 @@ public class TileTextGenerator {
 	}
 	
 	/**
-	 * Just to get some output.
-	 * //TODO Make it read the real texts from a file... 
+	 * Populates the list with the texts.
 	 * 
 	 * @throws IOException 
 	 */
@@ -34,10 +38,15 @@ public class TileTextGenerator {
 		texts = new ArrayList<String>();
 		
 		try {
-			Files.lines(Paths.get("resources/texts_eng.txt")).forEach(str -> texts.add(str));
+			Files.lines(Paths.get(fileName)).forEach(str -> texts.add(str));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.warning("Could not find the language file: " + fileName);
+			try {
+				Files.lines(Paths.get("resources/texts_en.txt")).forEach(str -> texts.add(str));
+			} catch (IOException e1) {
+				log.severe("Could not find the backup language file!" + e1.getMessage());
+			}
+	
 		};
 		
 	}
@@ -62,5 +71,16 @@ public class TileTextGenerator {
 		return randTexts;
 	}
 	
+	/**
+	 * Sets the proper language file using the ISO 639-1 standard, and loads the
+	 * new language. If no file with the code exists, the generator will default
+	 *  to the English version.
+	 * 
+	 * @param lanCode The two letters for the wanted language
+	 */
+	public void setLanguage(String lanCode) {
+		fileName = "resources/texts_" + lanCode + ".txt";
+		populateList();
+	}
 	
 }
