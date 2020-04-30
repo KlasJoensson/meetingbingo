@@ -35,7 +35,7 @@ public class MeetingBingo extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Mötes bingo");
 		
-		GamePad gp = new GamePad();
+		GamePad gp = new GamePad("en");
 		
 		GridPane mainPlane = gp.getGamePad();
 		Scene scene = new Scene(mainPlane, 500, 500);

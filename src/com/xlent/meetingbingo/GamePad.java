@@ -10,6 +10,12 @@ public class GamePad {
 
 	ArrayList<String> textStrList;
 	
+	public GamePad(String langCode) {
+		TileTextGenerator tileTexts = new TileTextGenerator();
+		tileTexts.setLanguage(langCode);
+		textStrList = tileTexts.getRandomizeList();
+	}
+	
 	public GamePad() {
 		TileTextGenerator tileTexts = new TileTextGenerator();
 		textStrList = tileTexts.getRandomizeList();
