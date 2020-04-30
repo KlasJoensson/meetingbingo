@@ -2,10 +2,15 @@ package com.xlent.meetingbingo;
 
 import java.util.ArrayList;
 
-public class MeetingBingo {
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
+public class MeetingBingo extends Application {
+	
 	public static void main(String[] args) {
-		writeTexts();
+		launch(args);
 	}
 	
 	/**
@@ -24,6 +29,19 @@ public class MeetingBingo {
 			
 		}
 		
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle("Mötes bingo");
+		
+		GamePad gp = new GamePad();
+		
+		GridPane mainPlane = gp.getGamePad();
+		Scene scene = new Scene(mainPlane, 500, 500);
+		
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 
 }
