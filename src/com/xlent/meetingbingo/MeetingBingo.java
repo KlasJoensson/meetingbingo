@@ -20,7 +20,7 @@ public class MeetingBingo {
 			if (r%5 == 0 && r != 0)
 				System.out.println();
 			
-			System.out.print(textStrList.get(r) + " ");
+			System.out.print(textStrList.get(r) + " - ");
 			
 		}
 		

@@ -1,5 +1,8 @@
 package com.xlent.meetingbingo;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,7 +11,7 @@ public class TileTextGenerator {
 	private ArrayList<String> texts;
 	
 	public TileTextGenerator() {
-		populateList();
+			populateList();
 	}
 	
 	
@@ -24,16 +27,18 @@ public class TileTextGenerator {
 	/**
 	 * Just to get some output.
 	 * //TODO Make it read the real texts from a file... 
+	 * 
+	 * @throws IOException 
 	 */
 	private void populateList() {
 		texts = new ArrayList<String>();
 		
-		for(int i=1;i<6;i++) {
-			for(int j=1;j<6;j++) {
-				texts.add("[" + i + "," + j + "]");
-			}
-		}
-		
+		try {
+			Files.lines(Paths.get("resources/texts_eng.txt")).forEach(str -> texts.add(str));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
 		
 	}
 	
