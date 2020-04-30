@@ -1,12 +1,13 @@
 package com.xlent.meetingbingo;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class TileTexts {
+public class TileTextGenerator {
 
 	private ArrayList<String> texts;
 	
-	public TileTexts() {
+	public TileTextGenerator() {
 		populateList();
 	}
 	
@@ -36,9 +37,22 @@ public class TileTexts {
 		
 	}
 	
+	/**
+	 * Returns the strings in an random order.
+	 * 
+	 * @return An array with the texts
+	 */
 	public ArrayList<String> getRandomizeList() {
 		ArrayList<String> randTexts = new ArrayList<String>();
-		// TODO implement!
+		Random random = new Random();
+		
+		while (texts.size() > 1) {
+			randTexts.add(texts.remove(random.nextInt(texts.size()-1)));
+		}
+		
+		randTexts.add(texts.get(0));
+		
+		populateList();
 		
 		return randTexts;
 	}

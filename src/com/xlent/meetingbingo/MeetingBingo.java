@@ -12,9 +12,9 @@ public class MeetingBingo {
 	 * Just for testing...
 	 */
 	private static void writeTexts() {
-		TileTexts tileTexts = new TileTexts();
+		TileTextGenerator tileTexts = new TileTextGenerator();
 		
-		ArrayList<String> textStrList = tileTexts.getTexts();
+		ArrayList<String> textStrList = tileTexts.getRandomizeList();
 		
 		for(int r=0;r<25;r++) {
 			if (r%5 == 0 && r != 0)
