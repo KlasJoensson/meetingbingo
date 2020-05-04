@@ -14,6 +14,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class GamePad {
 
@@ -58,9 +59,11 @@ public class GamePad {
 
 				if (btn.getContentDisplay() == ContentDisplay.TEXT_ONLY) {
 					btn.setContentDisplay(ContentDisplay.CENTER);
+					btn.setTextFill(new Color(0.75, 0.75, 0.75, 1));
 				}
 				else {
 					btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
+					btn.setTextFill(new Color(0.1, 0.1, 0.1, 1));
 				}
 
 			}
