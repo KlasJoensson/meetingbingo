@@ -1,5 +1,7 @@
 package com.xlent.meetingbingo;
 
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -11,6 +13,7 @@ public class MeetingBingo extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+		//System.out.println(Paths.get("resources/X.png").toFile().exists());
 	}
 	
 	/**
@@ -35,7 +38,7 @@ public class MeetingBingo extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Mötes bingo");
 		
-		GamePad gp = new GamePad("en");
+		GamePad gp = new GamePad();
 		
 		GridPane mainPlane = gp.getGamePad();
 		Scene scene = new Scene(mainPlane, 500, 500);
