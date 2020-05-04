@@ -21,17 +21,31 @@ public class GamePad {
 	private ArrayList<String> textStrList;
 	private Logger log = Logger.getLogger(GamePad.class.getName());
 	
+	/**
+	 * Creates a game pad using the language of choice, using the two letter 
+	 * ISO 639-1 standard.
+	 * 
+	 * @param langCode The two letters for the wanted language
+	 */
 	public GamePad(String langCode) {
 		TileTextGenerator tileTexts = new TileTextGenerator();
 		tileTexts.setLanguage(langCode);
 		textStrList = tileTexts.getRandomizeList();
 	}
 	
+	/**
+	 * Creates a game pad using the default language, i.e. Swedish. 
+	 */
 	public GamePad() {
 		TileTextGenerator tileTexts = new TileTextGenerator();
 		textStrList = tileTexts.getRandomizeList();
 	}
 	
+	/**
+	 * To get the wanted game pad. I.e. a 5 times 5 grid with buttons and text.
+	 * 
+	 * @return A game pad.
+	 */
 	public GridPane getGamePad() {
 		GridPane gp = new GridPane();
 		
@@ -45,6 +59,12 @@ public class GamePad {
 		return gp;
 	}
 	
+	/**
+	 * Creates a button with the text defined by the parameter. 
+	 * 
+	 * @param text The text to be written on the button
+	 * @return A button to be used on the Game pad
+	 */
 	private Button createButton(String text) {
 
 		final Button btn = new Button(text);
@@ -80,6 +100,13 @@ public class GamePad {
 		return btn;
 	}
 
+	/**
+	 * Creates an images from the file located at the path.
+	 * 
+	 * @param path The path to the file
+	 * @return An image
+	 * @throws FileNotFoundException If no file was found
+	 */
 	private ImageView getImage(String path) throws FileNotFoundException {
 		File xImageFile = new File(path);
 		InputStream s = new FileInputStream(xImageFile);

@@ -13,7 +13,6 @@ public class MeetingBingo extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-		//System.out.println(Paths.get("resources/X.png").toFile().exists());
 	}
 	
 	/**
