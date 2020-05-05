@@ -1,7 +1,5 @@
 package com.xlent.meetingbingo;
 
-import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -14,24 +12,6 @@ public class MeetingBingo extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
-	/**
-	 * Just for testing...
-	 */
-	private static void writeTexts() {
-		TileTextGenerator tileTexts = new TileTextGenerator();
-		
-		ArrayList<String> textStrList = tileTexts.getRandomizeList();
-		
-		for(int r=0;r<25;r++) {
-			if (r%5 == 0 && r != 0)
-				System.out.println();
-			
-			System.out.print(textStrList.get(r) + " - ");
-			
-		}
-		
-	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -40,11 +20,10 @@ public class MeetingBingo extends Application {
 		VBox mainPlane = new VBox();
 		GamePad gp = GamePad.getInstance("sv");
 		GridPane gamePlane = gp.getNewGamePad();
+		
 		GameMenuBar mb = new GameMenuBar(mainPlane); 
-		
 		VBox menu = new VBox(mb.getMenuBar());
-		
-		
+			
 		mainPlane.getChildren().add(menu);
 		mainPlane.getChildren().add(gamePlane);
 		
