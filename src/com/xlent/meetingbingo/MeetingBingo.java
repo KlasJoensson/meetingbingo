@@ -46,8 +46,8 @@ public class MeetingBingo extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Mötes bingo");
 		
-		GamePad gp = new GamePad();
-		GridPane gamePlane = gp.getGamePad();
+		GamePad gp = GamePad.getInstance("sv");
+		GridPane gamePlane = gp.getNewGamePad();
 		
 		VBox menu = new VBox(getMenuBar());
 		
@@ -108,8 +108,8 @@ public class MeetingBingo extends Application {
 
 		@Override
 		public void handle(ActionEvent event) {
-			GamePad gp = new GamePad();
-			GridPane gamePlane = gp.getGamePad();
+			GamePad gp = GamePad.getInstance("sv");
+			GridPane gamePlane = gp.getNewGamePad();
 			mainPlane.getChildren().remove(1);
 			mainPlane.getChildren().add(gamePlane);
 			
@@ -124,8 +124,8 @@ public class MeetingBingo extends Application {
 
 		@Override
 		public void handle(ActionEvent event) {
-			GamePad gp = new GamePad("en");
-			GridPane gamePlane = gp.getGamePad();
+			GamePad gp = GamePad.getInstance("en");
+			GridPane gamePlane = gp.getNewGamePad();
 			mainPlane.getChildren().remove(1);
 			mainPlane.getChildren().add(gamePlane);
 		}

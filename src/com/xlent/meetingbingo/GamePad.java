@@ -18,9 +18,45 @@ import javafx.scene.paint.Color;
 
 public class GamePad {
 
+	private static GamePad gamePad;
 	private ArrayList<String> textStrList;
 	private GridPane gp;
+	private static String myLangCode = "sv";
+	private TileTextGenerator tileTexts;
 	private Logger log = Logger.getLogger(GamePad.class.getName());
+	
+	/**
+	 * Get the current game pad or creates a new a Swedish game pad if non 
+	 * exists.
+	 * 
+	 * @return The game pad
+	 */
+	public static GamePad getInstance() {
+		if (gamePad == null)
+			gamePad = new GamePad(myLangCode);
+		
+		return gamePad;
+	}
+	
+	/**
+	 * Get the current game pad if the language matches else it creates a new 
+	 * game pad using the language of choice, using the two letter ISO 639-1 
+	 * standard.
+	 * 
+	 * @param langCode The two letters for the wanted language
+	 */
+	public static GamePad getInstance(String langCode) {
+		if (gamePad == null)
+			gamePad = new GamePad(langCode);
+		
+		if (langCode.equalsIgnoreCase(myLangCode)) {
+			return gamePad;
+		} else {
+			gamePad = new GamePad(langCode);
+			return gamePad;
+		}
+			
+	}
 	
 	/**
 	 * Creates a game pad using the language of choice, using the two letter 
@@ -28,26 +64,33 @@ public class GamePad {
 	 * 
 	 * @param langCode The two letters for the wanted language
 	 */
-	public GamePad(String langCode) {
-		createNewGamePad(langCode);
-	}
-	
-	/**
-	 * Creates a game pad using the default language, i.e. Swedish. 
-	 */
-	public GamePad() {
-		TileTextGenerator tileTexts = new TileTextGenerator();
+	private GamePad(String langCode) {
+		myLangCode = langCode;
+		tileTexts = new TileTextGenerator();
+		tileTexts.setLanguage(langCode);
 		textStrList = tileTexts.getRandomizeList();
+		
 	}
 	
 	/**
-	 * To get the game pad. I.e. a 5 times 5 grid with buttons and text.
+	 * Get the language used by the game pad.
+	 * 
+	 * @return The two letter ISO 639-1 standard
+	 */
+	public String getLanguage() {
+		return myLangCode;
+	}
+	
+	/**
+	 * To get the game pad, if non exists a new will be created.
 	 * 
 	 * @return The game pad.
 	 */
 	public GridPane getGamePad() {
+		log.info("Gets the game pad using the language: " + myLangCode);
+		
 		if (gp == null) {
-			return getNewGamePad("se");
+			return getNewGamePad();
 		}
 		
 		return gp;
@@ -56,10 +99,11 @@ public class GamePad {
 	/**
 	 * Creates and returns a new Game pad in the chosen language.
 	 * 
-	 * @param langCode The language code according to the ISO 639-1 standard
 	 * @return A new game pad
 	 */
-	public GridPane getNewGamePad(String langCode) {
+	public GridPane getNewGamePad() {
+		log.info("Gets a new game pad using the language: " + myLangCode);
+		
 		gp = new GridPane();
 		
 		for(int row=0;row<5;row++) {
@@ -78,7 +122,7 @@ public class GamePad {
 	 * @param langCode The two letters for the wanted language
 	 */
 	public void createNewGamePad(String langCode) {
-		TileTextGenerator tileTexts = new TileTextGenerator();
+		log.info("Creates a new game pad using the language: " + langCode);
 		tileTexts.setLanguage(langCode);
 		textStrList = tileTexts.getRandomizeList();
 	}
