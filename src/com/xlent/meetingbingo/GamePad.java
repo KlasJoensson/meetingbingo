@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
@@ -148,10 +149,15 @@ public class GamePad {
 				if (btn.getContentDisplay() == ContentDisplay.TEXT_ONLY) {
 					btn.setContentDisplay(ContentDisplay.CENTER);
 					btn.setTextFill(new Color(0.75, 0.75, 0.75, 1));
+					
 				}
 				else {
 					btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
 					btn.setTextFill(new Color(0.1, 0.1, 0.1, 1));
+				}
+				
+				if(checkForBingo()) {
+					log.info("BINGO!!!");
 				}
 
 			}
@@ -183,4 +189,33 @@ public class GamePad {
 		
 		return xImage;
 	}
+	
+	private boolean checkForBingo() {
+		boolean bingoOnRows = checkRows();
+		boolean bingoOnCols = false;
+		boolean bingoOnDiagonal = false;
+		
+		return (bingoOnRows || bingoOnCols || bingoOnDiagonal);
+	}
+	
+	private boolean checkRows() {
+		Node node;
+		int score = 0;
+		for(int row=0;row<5;row++) {
+			for(int col=0;col<5;col++) {
+				 node = gp.getChildren().get(row * 5 + col);
+				 if (node instanceof Button) {
+					if(((Button) node).getContentDisplay() != ContentDisplay.TEXT_ONLY) {
+						score++;
+					}
+				 }
+			}
+			if (score == 5) {
+				return true;
+			}
+			score = 0;
+		}
+		return false;
+	}
+	
 }
