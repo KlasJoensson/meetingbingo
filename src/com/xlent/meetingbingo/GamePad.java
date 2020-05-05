@@ -10,8 +10,10 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -25,7 +27,7 @@ public class GamePad {
 	private static String myLangCode = "sv";
 	private TileTextGenerator tileTexts;
 	private Logger log = Logger.getLogger(GamePad.class.getName());
-	
+
 	/**
 	 * Get the current game pad or creates a new a Swedish game pad if non 
 	 * exists.
@@ -35,10 +37,10 @@ public class GamePad {
 	public static GamePad getInstance() {
 		if (gamePad == null)
 			gamePad = new GamePad(myLangCode);
-		
+
 		return gamePad;
 	}
-	
+
 	/**
 	 * Get the current game pad if the language matches else it creates a new 
 	 * game pad using the language of choice, using the two letter ISO 639-1 
@@ -49,16 +51,16 @@ public class GamePad {
 	public static GamePad getInstance(String langCode) {
 		if (gamePad == null)
 			gamePad = new GamePad(langCode);
-		
+
 		if (langCode.equalsIgnoreCase(myLangCode)) {
 			return gamePad;
 		} else {
 			gamePad = new GamePad(langCode);
 			return gamePad;
 		}
-			
+
 	}
-	
+
 	/**
 	 * Creates a game pad using the language of choice, using the two letter 
 	 * ISO 639-1 standard.
@@ -70,9 +72,9 @@ public class GamePad {
 		tileTexts = new TileTextGenerator();
 		tileTexts.setLanguage(langCode);
 		textStrList = tileTexts.getRandomizeList();
-		
+
 	}
-	
+
 	/**
 	 * Get the language used by the game pad.
 	 * 
@@ -81,7 +83,7 @@ public class GamePad {
 	public String getLanguage() {
 		return myLangCode;
 	}
-	
+
 	/**
 	 * To get the game pad, if non exists a new will be created.
 	 * 
@@ -89,14 +91,14 @@ public class GamePad {
 	 */
 	public GridPane getGamePad() {
 		log.info("Gets the game pad using the language: " + myLangCode);
-		
+
 		if (gp == null) {
 			return getNewGamePad();
 		}
-		
+
 		return gp;
 	}
-	
+
 	/**
 	 * Creates and returns a new Game pad in the chosen language.
 	 * 
@@ -104,19 +106,19 @@ public class GamePad {
 	 */
 	public GridPane getNewGamePad() {
 		log.info("Gets a new game pad using the language: " + myLangCode);
-		
+
 		gp = new GridPane();
-		
+
 		for(int row=0;row<5;row++) {
 			for(int col=0;col<5;col++) {
 				gp.add(createButton(textStrList.get(row * 5 + col)), col, row);
 			}
-			
+
 		}
-		
+
 		return gp; 
 	}
-	
+
 	/**
 	 * Creates a new game pad with the language set by the parameter.
 	 * 
@@ -127,7 +129,7 @@ public class GamePad {
 		tileTexts.setLanguage(langCode);
 		textStrList = tileTexts.getRandomizeList();
 	}
-	
+
 	/**
 	 * Creates a button with the text defined by the parameter. 
 	 * 
@@ -149,15 +151,20 @@ public class GamePad {
 				if (btn.getContentDisplay() == ContentDisplay.TEXT_ONLY) {
 					btn.setContentDisplay(ContentDisplay.CENTER);
 					btn.setTextFill(new Color(0.75, 0.75, 0.75, 1));
-					
+
 				}
 				else {
 					btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
 					btn.setTextFill(new Color(0.1, 0.1, 0.1, 1));
 				}
-				
+
 				if(checkForBingo()) {
 					log.info("BINGO!!!");
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Bingo");
+					alert.setHeaderText(null);
+					alert.setContentText("Grattis! Du har fått bingo!");
+					alert.showAndWait();
 				}
 
 			}
@@ -186,29 +193,29 @@ public class GamePad {
 		InputStream s = new FileInputStream(xImageFile);
 		Image i = new Image(s);
 		ImageView xImage = new ImageView(i);
-		
+
 		return xImage;
 	}
-	
+
 	private boolean checkForBingo() {
 		boolean bingoOnRows = checkRows();
-		boolean bingoOnCols = false;
-		boolean bingoOnDiagonal = false;
-		
+		boolean bingoOnCols = checkCols();
+		boolean bingoOnDiagonal = checkDiagonal();
+
 		return (bingoOnRows || bingoOnCols || bingoOnDiagonal);
 	}
-	
+
 	private boolean checkRows() {
 		Node node;
 		int score = 0;
 		for(int row=0;row<5;row++) {
 			for(int col=0;col<5;col++) {
-				 node = gp.getChildren().get(row * 5 + col);
-				 if (node instanceof Button) {
+				node = gp.getChildren().get(row * 5 + col);
+				if (node instanceof Button) {
 					if(((Button) node).getContentDisplay() != ContentDisplay.TEXT_ONLY) {
 						score++;
 					}
-				 }
+				}
 			}
 			if (score == 5) {
 				return true;
@@ -217,5 +224,61 @@ public class GamePad {
 		}
 		return false;
 	}
-	
+
+	private boolean checkCols() {
+		Node node;
+		int score = 0;
+		for(int col=0;col<5;col++) {
+			for(int row=0;row<5;row++) {		
+				node = gp.getChildren().get(row * 5 + col);
+				if (node instanceof Button) {
+					if(((Button) node).getContentDisplay() != ContentDisplay.TEXT_ONLY) {
+						score++;
+					}
+				}
+			}
+			if (score == 5) {
+				return true;
+			}
+			score = 0;
+		}
+		return false;
+	}
+
+	private boolean checkDiagonal() {
+		Node node;
+		int score = 0;
+		int col=0;
+		for(int row=0;row<5;row++) {
+			node = gp.getChildren().get(row * 5 + col);
+			if (node instanceof Button) {
+				if(((Button) node).getContentDisplay() != ContentDisplay.TEXT_ONLY) {
+					score++;
+				}
+
+			}
+			col++;
+		}
+		if (score == 5) {
+			return true;
+		}
+		
+		col = 4;
+		score = 0;
+		for(int row=0;row<5;row++) {
+			node = gp.getChildren().get(row * 5 + col);
+			if (node instanceof Button) {
+				if(((Button) node).getContentDisplay() != ContentDisplay.TEXT_ONLY) {
+					score++;
+				}
+
+			}
+			col--;
+		}
+		if (score == 5) {
+			return true;
+		} 
+
+		return false;
+	}
 }
