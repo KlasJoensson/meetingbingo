@@ -197,6 +197,12 @@ public class GamePad {
 		return xImage;
 	}
 
+	
+	/**
+	 * A checks if there's a bingo.
+	 * 
+	 * @return <code>True</code> if there's a bingo
+	 */
 	private boolean checkForBingo() {
 		boolean bingoOnRows = checkRows();
 		boolean bingoOnCols = checkCols();
@@ -205,6 +211,11 @@ public class GamePad {
 		return (bingoOnRows || bingoOnCols || bingoOnDiagonal);
 	}
 
+	/**
+	 * A checks if there's a bingo on a row.
+	 * 
+	 * @return <code>True</code> if there's a bingo
+	 */
 	private boolean checkRows() {
 		Node node;
 		int score = 0;
@@ -225,6 +236,11 @@ public class GamePad {
 		return false;
 	}
 
+	/**
+	 * A checks if there's a bingo on a column.
+	 * 
+	 * @return <code>True</code> if there's a bingo
+	 */
 	private boolean checkCols() {
 		Node node;
 		int score = 0;
@@ -245,6 +261,11 @@ public class GamePad {
 		return false;
 	}
 
+	/**
+	 * A checks if there's a bingo on any of the diagonals.
+	 * 
+	 * @return <code>True</code> if there's a bingo
+	 */
 	private boolean checkDiagonal() {
 		Node node;
 		int score = 0;
